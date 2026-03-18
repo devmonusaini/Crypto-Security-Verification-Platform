@@ -15,9 +15,9 @@ const alerts = [
     type: 'danger',
     icon: XCircle,
     title: 'Blacklisted Address',
-    description: 'Address TRx5...9kL has been flagged for fraudulent activity and is on the global blacklist',
+    description: 'Address 0x8d1...c9A has been flagged for fraudulent activity and is on the global blacklist',
     time: '15 minutes ago',
-    network: 'TRON',
+    network: 'BSC',
     color: '#FF3B3B',
   },
   {

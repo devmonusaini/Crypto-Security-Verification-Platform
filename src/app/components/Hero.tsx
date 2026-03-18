@@ -9,9 +9,6 @@ interface HeroProps {
 
 export function Hero({ onScan }: HeroProps) {
   const [input, setInput] = useState("");
-  const [network, setNetwork] = useState<"TRON" | "BSC">(
-    "TRON",
-  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -113,7 +110,7 @@ export function Hero({ onScan }: HeroProps) {
           className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
         >
           Check wallet safety, detect scams, and validate
-          transactions on TRON & BSC networks.
+          transactions on BSC mainnet.
         </motion.p>
 
         {/* Wallet Connect Button */}
@@ -181,7 +178,7 @@ export function Hero({ onScan }: HeroProps) {
             { label: "Wallets Scanned", value: "1M+" },
             { label: "Detection Accuracy", value: "99.9%" },
             { label: "Scams Detected", value: "50K+" },
-            { label: "Networks Supported", value: "2" },
+            { label: "Networks Supported", value: "1" },
           ].map((stat, index) => (
             <div
               key={index}

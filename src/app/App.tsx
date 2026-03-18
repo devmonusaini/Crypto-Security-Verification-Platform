@@ -29,9 +29,7 @@ export default function App() {
 
     // Simulate scanning with mock data
     setTimeout(() => {
-      // Detect network type based on input
-      const isTron = input.startsWith('T') || Math.random() > 0.5;
-      const network = isTron ? 'TRON' : 'BSC';
+      const network = 'BSC';
       
       // Generate mock scan result
       const riskScore = Math.floor(Math.random() * 100);

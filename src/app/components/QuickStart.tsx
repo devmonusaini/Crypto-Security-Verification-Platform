@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { Copy, Zap } from 'lucide-react';
 import { useState } from 'react';
@@ -8,22 +9,16 @@ interface QuickStartProps {
 
 const exampleAddresses = [
   {
-    network: 'TRON',
-    address: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t',
-    label: 'Official USDT Contract',
-    icon: '🔷',
-  },
-  {
     network: 'BSC',
     address: '0x55d398326f99059fF775485246999027B3197955',
-    label: 'BSC-USD Contract',
+    label: 'Official USDT (BSC) Contract',
     icon: '🟡',
   },
   {
-    network: 'TRON',
-    address: 'TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf',
-    label: 'Example Wallet',
-    icon: '🔷',
+    network: 'BSC',
+    address: '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',
+    label: 'DAI (BSC) Contract',
+    icon: '🟡',
   },
 ];
 
@@ -50,7 +45,7 @@ export function QuickStart({ onScan }: QuickStartProps) {
             <Zap className="w-6 h-6 text-[#00FFA3]" />
             <h3 className="text-2xl font-bold">Quick Start - Try These Examples</h3>
           </div>
-          
+
           <p className="text-gray-400 mb-6">
             Click on any address below to scan it instantly, or copy it to use in the search above.
           </p>
@@ -72,7 +67,7 @@ export function QuickStart({ onScan }: QuickStartProps) {
                     <div className="font-mono text-sm text-gray-300 truncate">{example.address}</div>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => handleCopy(example.address, index)}

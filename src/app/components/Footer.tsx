@@ -58,7 +58,7 @@ export function Footer() {
               </div>
               
               <p className="text-gray-400 mb-6 leading-relaxed">
-                Advanced blockchain security platform for verifying USDT wallets and transactions on TRON and BSC networks. Protect your crypto assets with our AI-powered threat detection.
+                Advanced blockchain security platform for verifying USDT wallets and transactions on BSC mainnet. Protect your crypto assets with our AI-powered threat detection.
               </p>
 
               {/* Social Links */}
@@ -201,10 +201,6 @@ export function Footer() {
         >
           <div className="flex items-center gap-2 text-sm text-gray-500">
             <span>Supported Networks:</span>
-          </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/10">
-            <span className="text-[#FF0013]">🔷</span>
-            <span className="text-sm font-semibold">TRON (TRC20)</span>
           </div>
           <div className="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-lg border border-white/10">
             <span className="text-[#F3BA2F]">🟡</span>

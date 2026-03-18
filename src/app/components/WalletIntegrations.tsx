@@ -14,7 +14,7 @@ export function WalletIntegrations() {
       name: 'Trust Wallet',
       icon: '💎',
       description: 'Multi-chain mobile wallet',
-      features: ['BSC & TRON', 'Mobile First', 'Built-in DApps'],
+      features: ['BSC Network', 'Mobile First', 'Built-in DApps'],
       color: 'from-blue-500 to-blue-600',
     },
     {

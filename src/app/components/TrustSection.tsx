@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'motion/react';
 import { CheckCircle, Shield, Zap, TrendingUp } from 'lucide-react';
 
@@ -9,8 +10,8 @@ const trustFeatures = [
   },
   {
     icon: Zap,
-    title: 'Real-time TRON & BSC Analysis',
-    description: 'Instant scanning with sub-second response times across both networks',
+    title: 'Real-time BSC Analysis',
+    description: 'Instant scanning with sub-second response times on BSC mainnet',
   },
   {
     icon: Shield,
@@ -61,7 +62,7 @@ export function TrustSection() {
               className="relative group"
             >
               {/* Glow Effect */}
-              <div 
+              <div
                 className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 blur transition duration-500"
                 style={{
                   background: `linear-gradient(to right, ${stat.color}40, ${stat.color}20)`,
@@ -104,7 +105,7 @@ export function TrustSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
           {trustFeatures.map((feature, index) => {
             const Icon = feature.icon;
-            
+
             return (
               <motion.div
                 key={index}
@@ -155,9 +156,9 @@ export function TrustSection() {
           {/* Activity Feed */}
           <div className="space-y-4">
             {[
-              { network: 'TRON', status: 'safe', address: 'TXm2...9kL3', time: '2s ago' },
+              { network: 'BSC', status: 'safe', address: '0x7a2...f4d', time: '2s ago' },
               { network: 'BSC', status: 'suspicious', address: '0x4f5...8a2B', time: '5s ago' },
-              { network: 'TRON', status: 'safe', address: 'TRp8...4mK9', time: '8s ago' },
+              { network: 'BSC', status: 'safe', address: '0x3f8...2ba', time: '8s ago' },
               { network: 'BSC', status: 'safe', address: '0x9c3...1fD4', time: '12s ago' },
             ].map((activity, index) => (
               <motion.div
@@ -169,20 +170,18 @@ export function TrustSection() {
                 className="flex items-center justify-between bg-white/5 rounded-xl p-4 border border-white/5"
               >
                 <div className="flex items-center gap-4">
-                  <div className={`w-2 h-2 rounded-full ${
-                    activity.status === 'safe' ? 'bg-[#00FFA3]' : 'bg-yellow-500'
-                  }`} />
+                  <div className={`w-2 h-2 rounded-full ${activity.status === 'safe' ? 'bg-[#00FFA3]' : 'bg-yellow-500'
+                    }`} />
                   <div>
                     <div className="font-mono text-sm">{activity.address}</div>
                     <div className="text-xs text-gray-400">{activity.network}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className={`text-xs px-2 py-1 rounded ${
-                    activity.status === 'safe' 
-                      ? 'bg-[#00FFA3]/20 text-[#00FFA3]' 
-                      : 'bg-yellow-500/20 text-yellow-500'
-                  }`}>
+                  <span className={`text-xs px-2 py-1 rounded ${activity.status === 'safe'
+                    ? 'bg-[#00FFA3]/20 text-[#00FFA3]'
+                    : 'bg-yellow-500/20 text-yellow-500'
+                    }`}>
                     {activity.status === 'safe' ? '✓ Safe' : '⚠ Check'}
                   </span>
                   <span className="text-xs text-gray-500">{activity.time}</span>

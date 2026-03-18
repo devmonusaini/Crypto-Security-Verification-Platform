@@ -269,11 +269,11 @@ export function SecurityInsights({ result }: SecurityInsightsProps) {
                 <div>
                   <div className="text-sm text-gray-400 mb-1">Network</div>
                   <div className="font-semibold flex items-center gap-2">
-                    {result.network === 'TRON' ? '🔷' : '🟡'} {result.network}
+                    {'🟡'} BSC
                   </div>
                 </div>
                 <div className="text-xs text-gray-500">
-                  {result.network === 'TRON' ? 'TRC20' : 'BEP20'}
+                  BEP20
                 </div>
               </div>
             </div>

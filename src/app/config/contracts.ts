@@ -1,7 +1,6 @@
 // USDT Token Addresses
 export const USDT_ADDRESSES = {
   BSC: '0x55d398326f99059fF775485246999027B3197955', // USDT on BSC
-  TRON: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', // USDT on TRON (TRC20)
 } as const;
 
 // Minimal ERC20 ABI for balance checking
@@ -11,6 +10,26 @@ export const ERC20_ABI = [
     inputs: [{ name: '_owner', type: 'address' }],
     name: 'balanceOf',
     outputs: [{ name: 'balance', type: 'uint256' }],
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [
+      { name: '_owner', type: 'address' },
+      { name: '_spender', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: 'remaining', type: 'uint256' }],
+    type: 'function',
+  },
+  {
+    constant: false,
+    inputs: [
+      { name: '_spender', type: 'address' },
+      { name: '_value', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: 'success', type: 'bool' }],
     type: 'function',
   },
   {
@@ -32,5 +51,5 @@ export const ERC20_ABI = [
 // Network IDs
 export const NETWORK_IDS = {
   BSC: 56,
-  TRON: 728126428,
 } as const;
+

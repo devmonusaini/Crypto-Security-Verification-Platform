@@ -28,8 +28,8 @@ const features = [
   },
   {
     icon: Globe,
-    title: 'Multi-Chain Support',
-    description: 'Full support for TRON (TRC20) and Binance Smart Chain (BSC/BEP20) network analysis.',
+    title: 'BSC Mainnet Support',
+    description: 'Built for Binance Smart Chain (BSC) mainnet with BEP20-focused wallet and transaction analysis.',
     color: '#9D4EDD',
   },
 ];

@@ -128,34 +128,7 @@ export function Hero({ onScan }: HeroProps) {
           />
         </motion.div>
 
-        {/* Network Toggle */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex justify-center gap-4 mb-8"
-        >
-          <button
-            onClick={() => setNetwork("TRON")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              network === "TRON"
-                ? "bg-[#FF0013] text-white shadow-lg shadow-[#FF0013]/50"
-                : "bg-white/5 text-gray-400 hover:bg-white/10"
-            }`}
-          >
-            🔷 TRON (TRC20)
-          </button>
-          <button
-            onClick={() => setNetwork("BSC")}
-            className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              network === "BSC"
-                ? "bg-[#F3BA2F] text-black shadow-lg shadow-[#F3BA2F]/50"
-                : "bg-white/5 text-gray-400 hover:bg-white/10"
-            }`}
-          >
-            🟡 BSC (BEP20)
-          </button>
-        </motion.div>
+
 
         {/* Search Form */}
         <motion.form

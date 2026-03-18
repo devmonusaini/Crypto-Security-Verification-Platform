@@ -1,6 +1,6 @@
 import { http, createConfig } from 'wagmi'
 import { bsc } from 'wagmi/chains'
-import { injected, walletConnect } from 'wagmi/connectors'
+import { metaMask, walletConnect, trustWallet } from 'wagmi/connectors'
 
 export const config = createConfig({
   chains: [bsc],
@@ -8,9 +8,10 @@ export const config = createConfig({
     [bsc.id]: http(),
   },
   connectors: [
-    injected(),
+    metaMask(),
+    trustWallet(),
     walletConnect({
-      projectId: "YOUR_PROJECT_ID",
+      projectId: "0ce8aee287b84db4976604d12ad15af9",
     }),
   ],
 })

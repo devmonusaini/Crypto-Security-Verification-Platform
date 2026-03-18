@@ -20,7 +20,7 @@ export function Navbar() {
     e.preventDefault();
     const targetId = href.replace('#', '');
     const element = document.getElementById(targetId);
-    
+
     if (element) {
       const navHeight = 80; // Navbar height
       const elementPosition = element.getBoundingClientRect().top;
@@ -31,7 +31,7 @@ export function Navbar() {
         behavior: 'smooth'
       });
     }
-    
+
     setIsMobileMenuOpen(false);
   };
 
@@ -46,11 +46,10 @@ export function Navbar() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-[#0B0F19]/95 backdrop-blur-xl border-b border-white/10 shadow-lg' 
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-[#0B0F19]/95 backdrop-blur-xl border-b border-white/10 shadow-lg'
+        : 'bg-transparent'
+        }`}
     >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -107,22 +106,16 @@ export function Navbar() {
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
             <WalletConnect />
-            <a
-              href="#scan"
-              onClick={(e) => handleSmoothScroll(e, '#scan')}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#00FFA3] to-[#00D1FF] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[#00FFA3]/30 transition-all active:scale-95"
-            >
-              Scan Now
-            </a>
+
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            onClick={() =>{ 
+            onClick={() => {
               setIsMobileMenuOpen(!isMobileMenuOpen)
               setIsScrolled(true)
-             } 
-              }
+            }
+            }
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-all"
           >
             {isMobileMenuOpen ? (

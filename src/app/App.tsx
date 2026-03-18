@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { WagmiProvider } from 'wagmi';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { config } from './config/wagmi';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Scanner } from './components/Scanner';
@@ -10,14 +13,14 @@ import { SecurityInsights } from './components/SecurityInsights';
 import { AlertSystem } from './components/AlertSystem';
 import { Footer } from './components/Footer';
 import { ScrollToTop } from './components/ScrollToTop';
+import { WalletIntegrations } from './components/WalletIntegrations';
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [scanInput, setScanInput] = useState('');
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState<any>(null);
-  const [darkMode, setDarkMode] = useState(true);
-
-
 
   const handleScan = (input: string) => {
     setScanInput(input);
@@ -52,50 +55,45 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen ${darkMode ? 'bg-[#0B0F19] text-white' : 'bg-white text-black'} `}>
-      {/* Background Effects */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00FFA3]/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-      </div>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>
+        <div className="min-h-screen bg-[#0B0F19] text-white">
+          {/* Background Effects */}
+          <div className="fixed inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#00FFA3]/10 rounded-full blur-3xl"></div>
+            <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+          </div>
 
-      {/* Dark Mode Toggle */}
-      {/* <div className="fixed top-6 right-6 z-50">
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-lg border border-white/20 hover:bg-white/20 transition-all"
-        >
-          {darkMode ? '☀️ Light' : '🌙 Dark'}
-        </button>
-      </div> */}
-
-      <div className="relative z-10">
-        <Navbar />
-        <Hero onScan={handleScan} />
-        
-        {(isScanning || scanResult) && (
-          <Scanner 
-            isScanning={isScanning} 
-            result={scanResult}
-            onClose={() => {
-              setScanResult(null);
-              setIsScanning(false);
-            }}
-          />
-        )}
-        
-        <QuickStart onScan={handleScan} />
-        <Features />
-        <HowItWorks />
-        <TrustSection />
-        
-        {scanResult && <SecurityInsights result={scanResult} />}
-        
-        <AlertSystem />
-        <Footer />
-        <ScrollToTop />
-      </div>
-    </div>
+          <div className="relative z-10">
+            <Navbar />
+            <Hero onScan={handleScan} />
+            
+            {(isScanning || scanResult) && (
+              <Scanner 
+                isScanning={isScanning} 
+                result={scanResult}
+                onClose={() => {
+                  setScanResult(null);
+                  setIsScanning(false);
+                }}
+              />
+            )}
+            
+            <QuickStart onScan={handleScan} />
+            <Features />
+            <WalletIntegrations />
+            <HowItWorks />
+            <TrustSection />
+            
+            {scanResult && <SecurityInsights result={scanResult} />}
+            
+            <AlertSystem />
+            <Footer />
+            <ScrollToTop />
+          </div>
+        </div>
+      </QueryClientProvider>
+    </WagmiProvider>
   );
 }

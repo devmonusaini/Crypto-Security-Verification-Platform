@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Shield, Menu, X } from 'lucide-react';
+import { WalletConnect } from './WalletConnect';
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -8,14 +9,31 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-
       setIsScrolled(window.scrollY > 50);
     };
-
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.replace('#', '');
+    const element = document.getElementById(targetId);
+    
+    if (element) {
+      const navHeight = 80; // Navbar height
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    
+    setIsMobileMenuOpen(false);
+  };
 
   const navLinks = [
     { label: 'Features', href: '#features' },
@@ -39,6 +57,10 @@ export function Navbar() {
           {/* Logo */}
           <motion.a
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
             className="flex items-center gap-3 group"
             whileHover={{ scale: 1.05 }}
           >
@@ -72,6 +94,7 @@ export function Navbar() {
               <motion.a
                 key={index}
                 href={link.href}
+                onClick={(e) => handleSmoothScroll(e, link.href)}
                 className="text-gray-300 hover:text-[#00FFA3] transition-colors relative group"
                 whileHover={{ y: -2 }}
               >
@@ -83,8 +106,10 @@ export function Navbar() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
+            <WalletConnect />
             <a
               href="#scan"
+              onClick={(e) => handleSmoothScroll(e, '#scan')}
               className="px-6 py-2.5 bg-gradient-to-r from-[#00FFA3] to-[#00D1FF] text-black font-bold rounded-lg hover:shadow-lg hover:shadow-[#00FFA3]/30 transition-all active:scale-95"
             >
               Scan Now
@@ -94,9 +119,10 @@ export function Navbar() {
           {/* Mobile Menu Button */}
           <button
             onClick={() =>{ 
-              setIsScrolled(true); // Ensure navbar is solid when mobile menu is open
               setIsMobileMenuOpen(!isMobileMenuOpen)
-            }}
+              setIsScrolled(true)
+             } 
+              }
             className="md:hidden p-2 hover:bg-white/10 rounded-lg transition-all"
           >
             {isMobileMenuOpen ? (
@@ -113,23 +139,26 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[#0B0F19]/95 backdrop-blur-xl border-t border-white/10 py-4"
+            className="md:hidden  bg-[#0B0F19]/95 backdrop-blur-xl  border-t border-white/10 py-4"
           >
             <div className="flex flex-col gap-4">
               {navLinks.map((link, index) => (
                 <a
                   key={index}
                   href={link.href}
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
                   className="text-gray-300 hover:text-[#00FFA3] transition-colors px-4 py-2 hover:bg-white/5 rounded-lg"
-                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
                 </a>
               ))}
+              <div className="mx-4">
+                <WalletConnect />
+              </div>
               <a
                 href="#scan"
+                onClick={(e) => handleSmoothScroll(e, '#scan')}
                 className="mx-4 px-6 py-3 bg-gradient-to-r from-[#00FFA3] to-[#00D1FF] text-black font-bold rounded-lg text-center hover:shadow-lg hover:shadow-[#00FFA3]/30 transition-all"
-                onClick={() => setIsMobileMenuOpen(false)}
               >
                 Scan Now
               </a>

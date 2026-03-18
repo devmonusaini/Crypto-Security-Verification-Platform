@@ -1,14 +1,17 @@
-import { useState } from 'react';
-import { motion } from 'motion/react';
-import { Shield, Search } from 'lucide-react';
+import { useState } from "react";
+import { motion } from "motion/react";
+import { Shield, Search } from "lucide-react";
+import { WalletConnect } from "./WalletConnect";
 
 interface HeroProps {
   onScan: (input: string) => void;
 }
 
 export function Hero({ onScan }: HeroProps) {
-  const [input, setInput] = useState('');
-  const [network, setNetwork] = useState<'TRON' | 'BSC'>('TRON');
+  const [input, setInput] = useState("");
+  const [network, setNetwork] = useState<"TRON" | "BSC">(
+    "TRON",
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,14 +20,24 @@ export function Hero({ onScan }: HeroProps) {
     }
   };
 
+  const handleWalletAddressSelected = (address: string) => {
+    setInput(address);
+    // Optionally auto-scan when wallet is connected
+    onScan(address);
+  };
+
   return (
-    <section id="scan" className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
+    <section
+      id="scan"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4"
+    >
       {/* Animated Grid Background */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0" 
+        <div
+          className="absolute inset-0"
           style={{
             backgroundImage: `linear-gradient(#00D1FF 1px, transparent 1px), linear-gradient(90deg, #00D1FF 1px, transparent 1px)`,
-            backgroundSize: '50px 50px',
+            backgroundSize: "50px 50px",
           }}
         >
           {/* Animated Nodes */}
@@ -71,7 +84,10 @@ export function Hero({ onScan }: HeroProps) {
                 repeat: Infinity,
               }}
             />
-            <Shield className="w-20 h-20 text-[#00FFA3] relative z-10" strokeWidth={1.5} />
+            <Shield
+              className="w-20 h-20 text-[#00FFA3] relative z-0"
+              strokeWidth={1.5}
+            />
           </div>
         </motion.div>
 
@@ -96,8 +112,21 @@ export function Hero({ onScan }: HeroProps) {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
         >
-          Check wallet safety, detect scams, and validate transactions on TRON & BSC networks.
+          Check wallet safety, detect scams, and validate
+          transactions on TRON & BSC networks.
         </motion.p>
+
+        {/* Wallet Connect Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex items-center  justify-center mb-8"
+        >
+          <WalletConnect
+            onAddressSelected={handleWalletAddressSelected}
+          />
+        </motion.div>
 
         {/* Network Toggle */}
         <motion.div
@@ -107,21 +136,21 @@ export function Hero({ onScan }: HeroProps) {
           className="flex justify-center gap-4 mb-8"
         >
           <button
-            onClick={() => setNetwork('TRON')}
+            onClick={() => setNetwork("TRON")}
             className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              network === 'TRON'
-                ? 'bg-[#FF0013] text-white shadow-lg shadow-[#FF0013]/50'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+              network === "TRON"
+                ? "bg-[#FF0013] text-white shadow-lg shadow-[#FF0013]/50"
+                : "bg-white/5 text-gray-400 hover:bg-white/10"
             }`}
           >
             🔷 TRON (TRC20)
           </button>
           <button
-            onClick={() => setNetwork('BSC')}
+            onClick={() => setNetwork("BSC")}
             className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-              network === 'BSC'
-                ? 'bg-[#F3BA2F] text-black shadow-lg shadow-[#F3BA2F]/50'
-                : 'bg-white/5 text-gray-400 hover:bg-white/10'
+              network === "BSC"
+                ? "bg-[#F3BA2F] text-black shadow-lg shadow-[#F3BA2F]/50"
+                : "bg-white/5 text-gray-400 hover:bg-white/10"
             }`}
           >
             🟡 BSC (BEP20)
@@ -139,7 +168,7 @@ export function Hero({ onScan }: HeroProps) {
           <div className="relative group">
             {/* Glow Effect */}
             <div className="absolute -inset-1 bg-gradient-to-r from-[#00FFA3] to-[#00D1FF] rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-            
+
             {/* Input Container */}
             <div className="relative bg-[#0F172A] rounded-2xl border border-white/10 overflow-hidden">
               <div className="flex items-center">
@@ -163,7 +192,8 @@ export function Hero({ onScan }: HeroProps) {
 
           {/* Helper Text */}
           <p className="text-sm text-gray-500 mt-4">
-            🔒 We never ask for private keys or access to your funds
+            🔒 We never ask for private keys or access to your
+            funds
           </p>
         </motion.form>
 
@@ -175,17 +205,21 @@ export function Hero({ onScan }: HeroProps) {
           className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 max-w-4xl mx-auto"
         >
           {[
-            { label: 'Wallets Scanned', value: '1M+' },
-            { label: 'Detection Accuracy', value: '99.9%' },
-            { label: 'Scams Detected', value: '50K+' },
-            { label: 'Networks Supported', value: '2' },
+            { label: "Wallets Scanned", value: "1M+" },
+            { label: "Detection Accuracy", value: "99.9%" },
+            { label: "Scams Detected", value: "50K+" },
+            { label: "Networks Supported", value: "2" },
           ].map((stat, index) => (
             <div
               key={index}
               className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-6 hover:bg-white/10 transition-all"
             >
-              <div className="text-3xl font-bold text-[#00FFA3] mb-2">{stat.value}</div>
-              <div className="text-sm text-gray-400">{stat.label}</div>
+              <div className="text-3xl font-bold text-[#00FFA3] mb-2">
+                {stat.value}
+              </div>
+              <div className="text-sm text-gray-400">
+                {stat.label}
+              </div>
             </div>
           ))}
         </motion.div>

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { WagmiProvider } from 'wagmi';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from 'sonner';
 import { config } from './config/wagmi';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
@@ -22,7 +23,7 @@ export default function App() {
   const [isScanning, setIsScanning] = useState(false);
   const [scanResult, setScanResult] = useState<any>(null);
 
-  const handleScan = (input: string) => {
+  const handleScan = (input: string, walletUsdtBalance?: number) => {
     setScanInput(input);
     setIsScanning(true);
     setScanResult(null);
@@ -30,11 +31,11 @@ export default function App() {
     // Simulate scanning with mock data
     setTimeout(() => {
       const network = 'BSC';
-      
+
       // Generate mock scan result
       const riskScore = Math.floor(Math.random() * 100);
       const status = riskScore < 30 ? 'safe' : riskScore < 70 ? 'suspicious' : 'danger';
-      
+
       setScanResult({
         network,
         address: input,
@@ -42,12 +43,12 @@ export default function App() {
         status,
         isBlacklisted: riskScore > 80,
         transactionCount: Math.floor(Math.random() * 1000),
-        balance: (Math.random() * 10000).toFixed(2),
+        balance: walletUsdtBalance !== undefined ? walletUsdtBalance.toFixed(2) : (Math.random() * 10000).toFixed(2),
         firstSeen: new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString(),
         contractVerified: Math.random() > 0.3,
         suspiciousActivity: riskScore > 50,
       });
-      
+
       setIsScanning(false);
     }, 3000);
   };
@@ -55,6 +56,7 @@ export default function App() {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
+        <Toaster richColors position="top-right" />
         <div className="min-h-screen bg-[#0B0F19] text-white">
           {/* Background Effects */}
           <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -66,10 +68,10 @@ export default function App() {
           <div className="relative z-10">
             <Navbar />
             <Hero onScan={handleScan} />
-            
+
             {(isScanning || scanResult) && (
-              <Scanner 
-                isScanning={isScanning} 
+              <Scanner
+                isScanning={isScanning}
                 result={scanResult}
                 onClose={() => {
                   setScanResult(null);
@@ -77,15 +79,15 @@ export default function App() {
                 }}
               />
             )}
-            
+
             <QuickStart onScan={handleScan} />
             <Features />
             <WalletIntegrations />
             <HowItWorks />
             <TrustSection />
-            
+
             {scanResult && <SecurityInsights result={scanResult} />}
-            
+
             <AlertSystem />
             <Footer />
             <ScrollToTop />

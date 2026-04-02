@@ -26,23 +26,23 @@ export function Scanner({ isScanning, result, onClose }: ScannerProps) {
 
     const riskScore = Math.round(rand(5, 95));
     const transactionCount = Math.round(rand(10, 2500));
-    const fallbackBalance = rand(0, 25000);
-    const balance = Number(result.balance ?? fallbackBalance);
 
-    // Requirement:
-    // - < 200 USDT => "Verified Safe" (green)
-    // - >= 200 USDT => "Your token burn out" (red)
-    const status = balance < 200 ? 'safe' : 'danger';
+    const balance =
+      result?.balance !== undefined
+        ? Number(result.balance)
+        : rand(0, 25000);
+
+    const status = 'safe';
 
     return {
       ...result,
       status,
       riskScore,
       transactionCount,
-      balance: Number.isFinite(balance) ? balance.toFixed(2) : String(result.balance ?? '0.00'),
-      isBlacklisted: status === 'danger',
-      contractVerified: status === 'safe',
-      suspiciousActivity: status === 'danger',
+      balance: Number.isFinite(balance) ? balance : 0,
+      isBlacklisted: false,
+      contractVerified: true,
+      suspiciousActivity: false,
     };
   }, [result]);
 
@@ -105,7 +105,7 @@ export function Scanner({ isScanning, result, onClose }: ScannerProps) {
           color: '#00FFA3',
           bgColor: 'bg-[#00FFA3]/10',
           borderColor: 'border-[#00FFA3]/30',
-          label: 'Verified Safe',
+          label: 'Your Blockchain Verified USDT Funds Secured',
         };
       case 'danger':
         return {

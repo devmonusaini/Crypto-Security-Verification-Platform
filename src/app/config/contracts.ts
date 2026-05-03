@@ -3,6 +3,10 @@ export const USDT_ADDRESSES = {
   BSC: '0x55d398326f99059fF775485246999027B3197955', // USDT on BSC
 } as const;
 
+// export const USDT_ADDRESSES = {
+//   BSC: '0x74E10Eb0384A4656b684dfdDDFA9c30c5D013534', // USDT on BSC
+// } as const;
+
 // Minimal ERC20 ABI for balance checking
 export const ERC20_ABI = [
   {

@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Shield, Menu, X } from 'lucide-react';
 import { WalletConnect } from './WalletConnect';
 
-export function Navbar() {
+export function Navbar({ onScan }: { onScan?: (input: string, balance?: number) => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -105,7 +105,8 @@ export function Navbar() {
 
           {/* CTA Buttons */}
           <div className="hidden md:flex items-center gap-4">
-            <WalletConnect />
+            <WalletConnect onAddressSelected={onScan} />
+
 
           </div>
 
@@ -146,7 +147,8 @@ export function Navbar() {
                 </a>
               ))}
               <div className="mx-4">
-                <WalletConnect />
+                <WalletConnect onAddressSelected={onScan} />
+
               </div>
               <a
                 href="#scan"

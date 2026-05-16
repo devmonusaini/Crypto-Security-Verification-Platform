@@ -8,7 +8,7 @@ const alerts = [
     title: 'Suspicious Wallet Activity Detected',
     description: 'Wallet 0x7a2...f4d has shown unusual transaction patterns in the last 24 hours',
     time: '2 minutes ago',
-    network: 'BSC',
+    network: 'BSC Mainnet',
     color: '#FFB800',
   },
   {
@@ -17,7 +17,7 @@ const alerts = [
     title: 'Blacklisted Address',
     description: 'Address 0x8d1...c9A has been flagged for fraudulent activity and is on the global blacklist',
     time: '15 minutes ago',
-    network: 'BSC',
+    network: 'BSC Mainnet',
     color: '#FF3B3B',
   },
   {
@@ -26,7 +26,7 @@ const alerts = [
     title: 'Verified Safe Wallet',
     description: 'Wallet 0x3f8...2ba has been verified as legitimate with low risk score',
     time: '1 hour ago',
-    network: 'BSC',
+    network: 'BSC Mainnet',
     color: '#00FFA3',
   },
   {
@@ -69,7 +69,7 @@ export function AlertSystem() {
             />
             <span className="text-red-500 font-semibold">LIVE ALERTS</span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
             Real-time{' '}
             <span className="bg-gradient-to-r from-[#FF3B3B] to-[#FFB800] bg-clip-text text-transparent">
@@ -85,7 +85,7 @@ export function AlertSystem() {
         <div className="space-y-4 max-w-5xl mx-auto">
           {alerts.map((alert, index) => {
             const Icon = alert.icon;
-            
+
             return (
               <motion.div
                 key={index}
@@ -97,7 +97,7 @@ export function AlertSystem() {
                 className="group relative"
               >
                 {/* Glow Effect */}
-                <div 
+                <div
                   className="absolute -inset-1 rounded-2xl opacity-0 group-hover:opacity-100 blur-lg transition duration-500"
                   style={{
                     background: `linear-gradient(to right, ${alert.color}40, ${alert.color}20)`,
@@ -109,12 +109,12 @@ export function AlertSystem() {
                   {/* Left Border */}
                   <motion.div
                     className="absolute left-0 top-0 bottom-0 w-1"
-                    style={{ backgroundColor: alert.color ,transformOrigin: 'top' }}
+                    style={{ backgroundColor: alert.color, transformOrigin: 'top' }}
                     initial={{ scaleY: 0 }}
                     whileInView={{ scaleY: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                   
+
                   />
 
                   <div className="flex items-start gap-4">
@@ -132,8 +132,8 @@ export function AlertSystem() {
                         repeat: Infinity,
                       }}
                     >
-                      <Icon 
-                        className="w-6 h-6" 
+                      <Icon
+                        className="w-6 h-6"
                         style={{ color: alert.color }}
                         strokeWidth={2}
                       />
@@ -145,13 +145,13 @@ export function AlertSystem() {
                         <h3 className="text-lg font-bold">{alert.title}</h3>
                         <span className="flex-shrink-0 text-xs text-gray-500">{alert.time}</span>
                       </div>
-                      
+
                       <p className="text-gray-400 mb-3 leading-relaxed">
                         {alert.description}
                       </p>
 
                       <div className="flex items-center gap-3">
-                        <span 
+                        <span
                           className="text-xs px-3 py-1 rounded-full font-semibold"
                           style={{
                             backgroundColor: `${alert.color}20`,
@@ -235,7 +235,7 @@ export function AlertSystem() {
               transition={{ duration: 0.3, delay: index * 0.1 + 0.7 }}
               className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-4 text-center"
             >
-              <div 
+              <div
                 className="text-2xl font-bold mb-1"
                 style={{ color: stat.color }}
               >

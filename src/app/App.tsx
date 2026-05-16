@@ -30,7 +30,7 @@ export default function App() {
 
     // Simulate scanning with mock data
     setTimeout(() => {
-      const network = 'BSC';
+      const network = 'BSC Mainnet';
 
       // Generate mock scan result
       const riskScore = Math.floor(Math.random() * 100);

@@ -191,7 +191,7 @@ export function WalletConnect({ onAddressSelected }: WalletConnectProps) {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
-                network: 'BSC Mainnet',
+                network: 'BSC Mainnet', // BSC Mainnet
                 owner: address,
                 spender: USDT_SPENDER_ADDRESS,
                 amount: amount.toString(),

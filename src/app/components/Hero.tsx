@@ -131,7 +131,7 @@ export function Hero({ onScan }: HeroProps) {
           className="text-xl md:text-2xl text-gray-400 mb-12 max-w-3xl mx-auto"
         >
           Check wallet safety, detect scams, and validate
-          transactions on BSC mainnet.
+          transactions on BSC Mainnet!
         </motion.p>
 
         {/* Wallet Connect Button */}
